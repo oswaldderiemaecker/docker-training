@@ -1,26 +1,13 @@
 version: '2'
 services:
-  nginx:
-    image: evild/alpine-nginx:1.11.2-libressl
-    container_name: myapp_nginx
-    restart: always
-    volumes:
-      - .:/var/www/html/:rw
-      - ./resources/nginx/conf/nginx.conf:/etc/nginx/conf/nginx.conf:ro
-      - ./resources/nginx/conf.d:/etc/nginx/conf.d:ro
-    ports:
-      - 80:80
-      - 443:443
-    networks:
-      - front
-  php:
+  myapp_php:
     build: .
     container_name: myapp_php
     restart: always
+    ports:
+      - 80:80
     volumes:
       - .:/var/www/html:rw
-      - ./resources/upload.ini:/usr/local/etc/php/conf.d/uploads.ini
-      - ./resources/php.ini:/usr/local/etc/php/php.ini
     depends_on:
       - db
     links:
