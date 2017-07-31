@@ -7,7 +7,7 @@ services:
     ports:
       - 80:80
     volumes:
-      - .:/var/www/html:rw
+      - .:/var/app:rw
     depends_on:
       - db
     links:
