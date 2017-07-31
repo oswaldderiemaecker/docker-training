@@ -1,0 +1,56 @@
+version: '2'
+services:
+  nginx:
+    image: evild/alpine-nginx:1.11.2-libressl
+    container_name: myapp_nginx
+    restart: always
+    volumes:
+      - .:/var/www/html/:rw
+      - ./resources/nginx/conf/nginx.conf:/etc/nginx/conf/nginx.conf:ro
+      - ./resources/nginx/conf.d:/etc/nginx/conf.d:ro
+    ports:
+      - 80:80
+      - 443:443
+    networks:
+      - front
+  php:
+    build: .
+    container_name: myapp_php
+    restart: always
+    volumes:
+      - .:/var/www/html:rw
+      - ./resources/upload.ini:/usr/local/etc/php/conf.d/uploads.ini
+      - ./resources/php.ini:/usr/local/etc/php/php.ini
+    depends_on:
+      - db
+    links:
+      - db
+    environment:
+      - MYSQL_ADDON_DB=my_database
+      - MYSQL_ADDON_HOST=db
+      - MYSQL_ADDON_USER=root
+      - MYSQL_ADDON_PASSWORD=password
+      - AUTH_KEY=''
+      - SECURE_AUTH_KEY=''
+      - LOGGED_IN_KEY=''
+      - NONCE_KEY=''
+      - AUTH_SALT=''
+      - SECURE_AUTH_SALT=''
+      - LOGGED_IN_SALT=''
+      - NONCE_SALT=''
+    networks:
+      - front
+      - back
+  db:
+    image: mariadb:10
+    container_name: myapp_mariadb
+    restart: always
+    ports:
+      - 3306:3306
+    environment:
+      - MYSQL_ROOT_PASSWORD=password
+    networks:
+      - back
+networks:
+  front: 
+  back:
