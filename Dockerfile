@@ -18,5 +18,5 @@ COPY resources/vhost.conf /etc/apache2/sites-available/000-default.conf
 #Install composer
 RUN curl -sS https://getcomposer.org/installer | php \
 	&& mv composer.phar /usr/bin/composer
-RUN apt-get install -y vim
+RUN apt-get install -y vim vim-doc
 CMD ["apache2-foreground"]
