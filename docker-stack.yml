@@ -1,16 +1,20 @@
-version: '2'
+version: '3'
 services:
   myapp_php:
-    build: .
-    container_name: myapp_php
-    restart: always
+    image: oswald/docker-training:latest
+    deploy:
+      replicas: 2
+      resources:
+        limits:
+          cpus: "0.1"
+          memory: 50M
+      restart_policy:
+        condition: on-failure
     ports:
       - 80:80
     volumes:
       - .:/var/app:rw
     depends_on:
-      - db
-    links:
       - db
     environment:
       - MYSQL_ADDON_DB=my_database
@@ -22,8 +26,6 @@ services:
       - back
   db:
     image: mariadb:10
-    container_name: myapp_mariadb
-    restart: always
     ports:
       - 3306:3306
     environment:
