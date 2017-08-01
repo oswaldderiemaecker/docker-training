@@ -3,7 +3,7 @@ services:
   myapp_php:
     image: oswald/docker-training:latest
     deploy:
-      replicas: 2
+      replicas: 3
       resources:
         limits:
           cpus: "0.1"
@@ -12,8 +12,6 @@ services:
         condition: on-failure
     ports:
       - 80:80
-    volumes:
-      - .:/var/app:rw
     depends_on:
       - db
     environment:
