@@ -22,41 +22,14 @@ services:
     networks:
       - front
       - back
-  visualizer:
-    image: dockersamples/visualizer:stable
-    ports:
-      - "8080:8080"
-    volumes:
-      - "/var/run/docker.sock:/var/run/docker.sock"
-    deploy:
-      placement:
-        constraints: [node.role == manager]
-    networks:
-      - front
   db:
     image: mariadb:10
     ports:
       - 3306:3306
-    volumes:
-      - "./data/mysql:/var/lib/mysql"
     environment:
       - MYSQL_ROOT_PASSWORD=password
-    deploy:
-      placement:
-        constraints: [node.role == manager]
     networks:
       - back
-  redis:
-    image: redis
-    ports:
-      - "6379:6379"
-    volumes:
-      - ./data/redis:/data
-    deploy:
-      placement:
-        constraints: [node.role == manager]
-    networks:
-      - front
 networks:
   front: 
   back:
