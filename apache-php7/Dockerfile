@@ -6,7 +6,6 @@ RUN apt-get update && apt-get install -y \
    git \
    bzip2 \
    zip \
-   vim \
    libbz2-dev \
    libmcrypt-dev \
    libicu-dev \
